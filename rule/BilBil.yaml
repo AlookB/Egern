@@ -1,3 +1,6 @@
+name: B站分流 优雅老师自用
+
+
 no_resolve: true
 domain_set:
 - api.biliapi.com
@@ -10,5 +13,6 @@ domain_set:
 - m.bilibili.com
 - upos-hz-mirrorakam.akamaized.net
 - www.bilibili.com
+
 domain_keyword_set:
 - cn-hk-eq-bcache-
