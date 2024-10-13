@@ -1,18 +1,33 @@
+# 是否启用 IPv6。
 ipv6: false
+# HTTP 代理端口号。
 http_port: 3080
+# SOCKS 代理端口号。
 socks_port: 3090
+# 允许外部连接通过 Wi-Fi 访问设备上的代理。默认值是 false
 allow_external_connections: false
+# 仅虚拟网接口模式。默认值是 false
 vif_only: false
+# 允许用户指定一个或多个DNS服务器的地址。
 hijack_dns:
 - 119.29.29.29
+# 指定自定义的 GeoIP 数据库 URL。Egern 将每周自动更新该数据库。
 geoip_db_url: https://github.com/Hackl0us/GeoIP2-CN/raw/release/Country.mmdb
+# 指定自定义的 ASN 数据库 URL。Egern 将每周自动更新该数据库。
 asn_db_url: https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/ruleset/ASN.China.list
+# 自定义的代理延迟测试 URL。
 proxy_latency_test_url: http://www.gstatic.com/generate_204
+# 自定义的直连延迟测试 URL。
 direct_latency_test_url: http://connectivitycheck.platform.hicloud.com/generate_204
+# 启用后系统会通过隧道路由网络流量
 include_all_networks: false
+# 启用后系统将包含 Apple Push Notification 服务 (APN) 流量
 include_apns: false
+# 启用后系统会包含蜂窝网络服务
 include_cellular_services: false
+# 启用后系统将包含与本地网络上主机（如 AirPlay、AirDrop 和 CarPlay）的网络连接，
 include_local_networks: false
+#DNS 转发
 dns:
   bootstrap:
   - 119.29.29.29
@@ -34,6 +49,7 @@ dns:
     '*.tencent.com': 119.29.29.29
     '*.weixin.com': 119.29.29.29
   public_ip_lookup_url: https://ifconfig.me/ip
+#代理列表
 policy_groups:
 - external:
     name: 白嫖节点
@@ -153,10 +169,12 @@ rules:
     no_resolve: false
 - default:
     policy: 兜底分流
+#URl 重定向
 url_rewrites:
 - match: ^https?:\/\/(www.)?(g|google)\.cn
   location: ' https://www.google.com'
   status_code: 302
+#定时运行脚本
 scriptings:
 - schedule:
     name: 🧋蜜雪冰城
@@ -190,6 +208,7 @@ scriptings:
     name: 🕰 每天60秒
     cron: 0 0 7 * * ?
     script_url: https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/60s.js
+#中间人攻击开关以及证书
 mitm:
   enabled: true
   ca_p12: =
@@ -208,6 +227,7 @@ http_captures:
   - '*.apple.com'
   - '*.icloud.com'
   - '*.mzstatic.com'
+#🐿小松鼠模块
 modules:
 - name: 网易云音乐—VIP
   url: https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy-surge.sgmodule
