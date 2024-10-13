@@ -1,0 +1,259 @@
+ipv6: false
+http_port: 3080
+socks_port: 3090
+allow_external_connections: false
+vif_only: false
+hijack_dns:
+- 119.29.29.29
+geoip_db_url: https://github.com/Hackl0us/GeoIP2-CN/raw/release/Country.mmdb
+asn_db_url: https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/ruleset/ASN.China.list
+proxy_latency_test_url: http://www.gstatic.com/generate_204
+direct_latency_test_url: http://connectivitycheck.platform.hicloud.com/generate_204
+include_all_networks: false
+include_apns: false
+include_cellular_services: false
+include_local_networks: false
+dns:
+  bootstrap:
+  - 119.29.29.29
+  upstreams:
+    Google:
+    - https://8.8.8.8
+    - https://8.8.4.4
+  forward:
+  - proxy_rule_set:
+      match: https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/ChinaDomain.list
+      value: system
+  - regex:
+      match: ^ad\..*|^ads\..*
+      value: quic://dns.adguard-dns.com
+  - wildcard:
+      match: '*'
+      value: Google
+  hosts:
+    '*.tencent.com': 119.29.29.29
+    '*.weixin.com': 119.29.29.29
+  public_ip_lookup_url: https://ifconfig.me/ip
+policy_groups:
+- external:
+    name: 白嫖节点
+    type: select
+    urls:
+    - https://sub.store/download/%E7%99%BD%E5%AB%96%20VIP?target=Surge
+    filter: ''
+    tolerance: 50
+    timeout: 3
+    icon: https://raw.githubusercontent.com/black2c7/TheMagic-Icons/main/Icons/yiyuan1.png
+- external:
+    name: 手动选择
+    type: select
+    urls:
+    - https://login.uni-corn.cloud/api/v1/client/subscribe?token=8d2ed8f9e95974150d01f73d3b280514
+    filter: ^(?=.*(.*))(?!.*((?i)回国|校园|IPLC|教育|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|到期|过期|已用|联系|邮箱|工单|群|(\b(GAME|USE|USED|TOTAL|EXPIRE|EMAIL)\b|(\d{4}-\d{2}-\d{2}|\dG)))).*$
+    interval: 180
+    tolerance: 50
+    timeout: 3
+    icon: https://raw.githubusercontent.com/black2c7/TheMagic-Icons/main/Icons/Paofu2.png
+- select:
+    name: 全球加速
+    policies:
+    - 自动选择
+    - 手动选择
+    - 白嫖节点
+    flatten: false
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Speedtest.png
+- select:
+    name: 兜底分流
+    policies:
+    - 全球加速
+    - DIRECT
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Final.png
+- auto_test:
+    name: 自动选择
+    policies:
+    - 香港节点
+    - 台湾节点
+    - 狮城节点
+    - 日本节点
+    - 美国节点
+    flatten: false
+    icon: https://raw.githubusercontent.com/black2c7/TheMagic-Icons/main/Icons/Wd1.png
+    hidden: true
+- auto_test:
+    name: 香港节点
+    policies:
+    - 手动选择
+    flatten: true
+    filter: ^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b)))(?!.*((?i)回国|校园|游戏|(\b(GAME)\b))).*$
+    tolerance: 200
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Rounded_Rectangle/Hong_Kong.png
+    hidden: true
+- auto_test:
+    name: 台湾节点
+    policies:
+    - 手动选择
+    flatten: true
+    filter: ^(?=.*((?i)🇹🇼|台湾|(\b(TW|Tai|Taiwan)\b)))(?!.*((?i)回国|校园|游戏|(\b(GAME)\b))).*$
+    interval: 200
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Rounded_Rectangle/Taiwan.png
+    hidden: true
+- auto_test:
+    name: 狮城节点
+    policies:
+    - 手动选择
+    flatten: true
+    filter: ^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b)))(?!.*((?i)回国|校园|游戏|(\b(GAME)\b))).*$
+    tolerance: 200
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Rounded_Rectangle/Singapore.png
+    hidden: true
+- auto_test:
+    name: 日本节点
+    policies:
+    - 手动选择
+    flatten: true
+    filter: ^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b)))(?!.*((?i)回国|校园|游戏|(\b(GAME)\b))).*$
+    tolerance: 200
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Rounded_Rectangle/Japan.png
+    hidden: true
+- auto_test:
+    name: 美国节点
+    policies:
+    - 手动选择
+    flatten: true
+    filter: ^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)\b)))(?!.*((?i)回国|校园|游戏|(\b(GAME)\b))).*$
+    tolerance: 200
+    icon: https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Rounded_Rectangle/United_States.png
+    hidden: true
+rules:
+- rule_set:
+    match: http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/filter/fenliu.list/_end_/fenliu.list?type=rule-set&target=surge-rule-set&y=%23&del=true
+    policy: REJECT
+    disabled: false
+- rule_set:
+    match: https://raw.githubusercontent.com/ConnersHua/RuleGo/master/Surge/Ruleset/Proxy.list
+    policy: 全球加速
+- rule_set:
+    match: https://raw.githubusercontent.com/ddgksf2013/Filter/master/StreamingSE.list
+    policy: DIRECT
+- rule_set:
+    match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Apple/Apple.list
+    policy: DIRECT
+- rule_set:
+    match: Emby
+    policy: 白嫖节点
+- rule_set:
+    match: Local
+    policy: DIRECT
+- geoip:
+    match: CN
+    policy: DIRECT
+    no_resolve: false
+- default:
+    policy: 兜底分流
+url_rewrites:
+- match: ^https?:\/\/(www.)?(g|google)\.cn
+  location: ' https://www.google.com'
+  status_code: 302
+scriptings:
+- schedule:
+    name: 🧋蜜雪冰城
+    cron: 0 0 7 * * ?
+    script_url: https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js
+- schedule:
+    name: 🧋奶茶王子
+    cron: 0 0 7 * * ?
+    script_url: https://gist.githubusercontent.com/Sliverkiss/8b4f5487e0f28786c7dec9c7484dcd5e/raw/teaMilk.js
+- schedule:
+    name: 🧋奈雪的茶
+    cron: 0 0 7 * * ?
+    script_url: https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js
+- schedule:
+    name: 🗓今日黄历
+    cron: 0 0 7 * * ?
+    script_url: https://raw.githubusercontent.com/zqzess/rule_for_quantumultX/master/js/Mine/wnCalendar/wnCalendar.js
+- schedule:
+    name: 📝历史上的今天
+    cron: 0 0 7 * * ?
+    script_url: https://raw.githubusercontent.com/deezertidal/private/main/histoday.js
+- schedule:
+    name: 🏖生活指数
+    cron: 0 0 7 * * ?
+    script_url: https://raw.githubusercontent.com/deezertidal/private/main/lifeindex.js
+- schedule:
+    name: 🏝每日一言
+    cron: 0 0 7 * * ?
+    script_url: https://raw.githubusercontent.com/xiaomaoJT/QxScript/main/rewrite/boxJS/XiaoMaoGrowToday.js
+- schedule:
+    name: 🕰 每天60秒
+    cron: 0 0 7 * * ?
+    script_url: https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/60s.js
+mitm:
+  enabled: true
+  ca_p12: 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
+  ca_passphrase: egern
+  hostnames:
+    includes:
+    - flomoapp.com
+    excludes:
+    - '*.apple.com'
+    - '*.icloud.com'
+    - '*.mzstatic.com'
+http_captures:
+  includes:
+  - flomoapp.com
+  excludes:
+  - '*.apple.com'
+  - '*.icloud.com'
+  - '*.mzstatic.com'
+modules:
+- name: 网易云音乐—VIP
+  url: https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy-surge.sgmodule
+  enabled: true
+- name: 优雅老师—VIP
+  url: https://raw.githubusercontent.com/AlookB/qx/main/hj.yaml
+  enabled: true
+- name: VVebo —修复
+  url: https://raw.githubusercontent.com/garywah/Shadowrocket/main/module/VVebo.module
+  enabled: true
+- name: Proknockout—VIP
+  url: http://script.hub/file/_start_/https://raw.githubusercontent.com/AlookB/qx/refs/heads/main/Proknockout.js/_end_/Proknockout.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: false
+- name: 乘车码小程序—去广告🚫
+  url: https://raw.githubusercontent.com/AlookB/qx/refs/heads/main/Ad.yaml
+  enabled: true
+- name: 小程序 —去广告🚫
+  url: http://script.hub/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/cleanup.snippet/_end_/cleanup.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: true
+- name: 网易云音乐 —去广告🚫
+  url: http://script.hub/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/NeteaseAds.conf/_end_/NeteaseAds.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: true
+- name: 酷安—去广告🚫
+  url: http://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Scripts/master/coolapk.js/_end_/coolapk.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: true
+- name: YouTube —去广告🚫
+  url: https://raw.githubusercontent.com/Maasea/sgmodule/master/YouTube.Enhance.sgmodule
+  enabled: true
+- name: YouTube —双语字幕
+  url: https://github.com/DualSubs/YouTube/raw/main/modules/DualSubs.YouTube.yaml
+  enabled: true
+- name: Sub Store
+  url: https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Surge.sgmodule
+  enabled: true
+- name: Script-Hub
+  url: https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/modules/script-hub.surge.sgmodule
+  enabled: true
+- name: Box Js
+  url: https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.surge.sgmodule
+  enabled: true
+- name: 奶茶多合一 Cooking
+  url: http://script.hub/file/_start_/https://gist.githubusercontent.com/Sliverkiss/8b4f5487e0f28786c7dec9c7484dcd5e/raw/teaMilk.js/_end_/teaMilk.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: false
+- name: '蜜雪冰城— Cooking '
+  url: http://script.hub/file/_start_/https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js/_end_/mxbc.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: false
+- name: 奈雪的茶 —Cooking
+  url: http://script.hub/file/_start_/https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js/_end_/naixue.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: false
+- name: 叮当猫合集
+  url: http://script.hub/file/_start_/https://raw.githubusercontent.com/chxm1023/Script_X/main/Collections.conf/_end_/Collections.sgmodule?type=qx-rewrite&target=surge-module&del=true
+  enabled: false
